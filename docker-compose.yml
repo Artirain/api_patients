@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app  # Монтируем текущую папку проекта в контейнер
+    ports:
+      - "8000:8000"  # Открываем порт 8000 для доступа к серверу
