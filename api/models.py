@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
 
 class Patient(models.Model):
     date_of_birth = models.DateField()
-    diagnoses = models.JSONField(default=list)  # Храним список диагнозов как массив строк
+    diagnoses = models.JSONField(default=list)  # храним список диагнозов как массив строк
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

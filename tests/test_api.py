@@ -27,30 +27,15 @@ def test_patients_access_with_doctor_role():
     # создаем пользователя с ролью doctor
     user = CustomUser.objects.create_user(username='doctor1', password='password123', role='doctor')
 
-    # создаем пациента
-    # Создаем пользователя с ролью doctor
-    user = CustomUser.objects.create_user(username='doctor1', password='password123', role='doctor')
 
-    # Создаем пациента
+    # создаем пациента
     patient = Patient.objects.create(
         date_of_birth='1985-05-10',
         diagnoses=['Диагноз 1', 'Диагноз 2']
     )
 
-    #  авторизация
-    client = APIClient()
-    response = client.post('/api/login/', {'username': 'doctor1', 'password': 'password123'})
-    
-    # проверяем успешный логин и получение access token
-    assert response.status_code == 200
-    access_token = response.data['access']
 
-    # запрос с токеном
-    client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
-    response = client.get('/api/patients/')
-
-    # проверка статуса и данных
-    # Авторизуемся
+    # авторизация
     client = APIClient()
     response = client.post('/api/login/', {'username': 'doctor1', 'password': 'password123'})
     
@@ -62,7 +47,7 @@ def test_patients_access_with_doctor_role():
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
     response = client.get('/api/patients/')
 
-    # Проверяем статус и данные
+    # проверка
     assert response.status_code == 200
     assert len(response.data) == 1  #мы создали одного пациента
     assert response.data[0]['diagnoses'] == ['Диагноз 1', 'Диагноз 2']
