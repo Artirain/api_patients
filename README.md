@@ -13,5 +13,5 @@
 
 1. Клонируйте репозиторий:
    ```
-   git clone <URL вашего репозитория>
-    cd <название папки проекта>
+   git clone https://github.com/Artirain/api_patients
+   cd api_server
