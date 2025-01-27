@@ -24,30 +24,30 @@ def test_login_fail():
 
 @pytest.mark.django_db
 def test_patients_access_with_doctor_role():
-    # Создаем пользователя с ролью doctor
+    # создаем пользователя с ролью doctor
     user = CustomUser.objects.create_user(username='doctor1', password='password123', role='doctor')
 
-    # Создаем пациента
+    # создаем пациента
     patient = Patient.objects.create(
         date_of_birth='1985-05-10',
         diagnoses=['Диагноз 1', 'Диагноз 2']
     )
 
-    # Авторизуемся
+    #  авторизация
     client = APIClient()
     response = client.post('/api/login/', {'username': 'doctor1', 'password': 'password123'})
     
-    # Проверяем успешный логин и получение access token
+    # проверяем успешный логин и получение access token
     assert response.status_code == 200
     access_token = response.data['access']
 
-    # Отправляем запрос с токеном
+    # запрос с токеном
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
-    response = client.get('/api/patients/')  # Убедитесь, что путь правильный (с /api/)
+    response = client.get('/api/patients/')
 
-    # Проверяем статус и данные
+    # проверка статуса и данных
     assert response.status_code == 200
-    assert len(response.data) == 1  # Поскольку мы создали одного пациента
+    assert len(response.data) == 1  #мы создали одного пациента
     assert response.data[0]['diagnoses'] == ['Диагноз 1', 'Диагноз 2']
 
 
